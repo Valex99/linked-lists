@@ -106,7 +106,7 @@ class LinkedList {
     return lastNode;
   }
 
-  //
+  // Returns true if the passed in value is in the list and otherwise returns false.
   contains(value) {
     let currentNode = this.head;
 
@@ -127,4 +127,51 @@ class LinkedList {
     }
     return false;
   }
+
+  // Returns the index of the node containing value, or null if not found
+  find(value) {
+    // contains(value) is a method inside the LinkedList class, so you must call it using this.contains(value) instead of just contains(value).
+    if (this.contains(value) === false) {
+      return null;
+    }
+
+    let currentNode = this.head;
+    let currentIndex = 0;
+
+    // Traverse the list to the given index
+    while (currentNode !== null) {
+      if (currentNode.value === value) {
+        return currentIndex;
+      }
+      currentNode = currentNode.nextNode; // Move to the next node
+      currentIndex++;
+    }
+  }
+
+  // Represents your LinkedList objects as strings, so you can print them out and preview them in the console
+  toString() {
+    let currentNode = this.head;
+    let values = ""; // Initialize as an empty string
+
+    // Traverse the list and format the output string
+    while (currentNode !== null) {
+      values += `( ${currentNode.value} ) -> `; // Format each node
+      currentNode = currentNode.nextNode; // Move to the next node
+    }
+    values += "null";
+
+    return values;
+  }
 }
+
+//
+const list = new LinkedList();
+
+list.append("dog");
+list.append("cat");
+list.append("hamster");
+list.append("horse");
+list.append("fish");
+list.append("octapus");
+
+console.log(list.toString());
