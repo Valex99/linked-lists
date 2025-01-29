@@ -60,6 +60,7 @@ class LinkedList {
     return this.tail;
   }
 
+  // Returns the node at the given index
   at(index) {
     if (index < 0 || this.length <= index) {
       return null; // If the index is out of bounds
@@ -162,6 +163,66 @@ class LinkedList {
 
     return values;
   }
+
+  // EXTRA CREDIT
+  insertAt(value, index) {
+    // Handles insertion at the start
+    if (index === 0) {
+      return this.prepend(value);
+    }
+    // Handles insertion at the end
+    if (index === this.size()) {
+      return this.append(value);
+    }
+
+    // Insert node somewhere in the middle
+    // Createnode first
+    if (index > this.size() || index < 0) {
+      return null;
+    }
+
+    const newNode = new Node(value);
+    const previousNode = this.at(index - 1);
+    //const nextNode = this.at(index); // Current node at that i
+    const nextNode = previousNode.nextNode; // Get the node after the insertion point
+
+    previousNode.nextNode = newNode; // Link previous node to the new node
+    newNode.nextNode = nextNode; // Link new node to the next node
+
+    this.length++;
+  }
+
+  // Removes the node at the given index.
+  removeAt(index) {
+    // If there is no nodes, or index is invalid (too big, too small)
+    if (index >= this.size() || index < 0) {
+      return null;
+    }
+
+    if (index === 0) {
+      this.head = this.head.nextNode;
+      if ((this.head = null)) {
+        this.tail = null; // If the list is now empty, update tail
+      }
+      this.length--;
+      return;
+    }
+
+    // Get the previous node (before the one being removed)
+    const previousNode = this.at(index - 1);
+    const nodeToRemove = previousNode.nextNode;
+    const nextNode = nodeToRemove ? nodeToRemove.nextNode : null;
+
+    // If removed node to be, is the last node
+    if (index === this.size() - 1) {
+      this.tail = previousNode;
+      previousNode.nextNode = null;
+    } else {
+      // If removing a node in the middle
+      previousNode.nextNode = nextNode;
+    }
+    this.length--;
+  }
 }
 
 //
@@ -172,6 +233,20 @@ list.append("cat");
 list.append("hamster");
 list.append("horse");
 list.append("fish");
-list.append("octapus");
 
 console.log(list.toString());
+
+console.log(list.size());
+
+list.insertAt("SLON", 4);
+
+console.log(list.toString());
+
+console.log(list.size());
+
+list.removeAt(4)
+
+// 
+console.log(list.toString());
+
+console.log(list.size());
